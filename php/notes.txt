@@ -1,0 +1,58 @@
+php notes 
+
+connecting a database 
+
+- $dsn = "mysql:host=localhost;dbname=db";
+
+- pdo (php database object)
+- creates a database object, we can use this to manipulate the database
+- $pdo = new PDO(dsn, dbusername, dbpassword);
+
+
+- $pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+- catch (PDOException $e) {
+  echo "connection failed: " . $e -> getMessage();
+}
+
+
+inserting query
+
+make a variable that holds the sql command 
+- $query = "INSERT INTO users (username, password, email, phone_number) VALUES (?, ?, ?, ?)";  its questions marks for place holder 
+
+then you want to make a statement to prepare the data 
+- $stmt = pdo -> prepare($query); prepares the query 
+
+then you can add the data through the execute method
+- $stmt -> execute([$var, etc]);
+
+then you want to free everything
+- $stmt = null
+- $pdo = null
+
+then quit the script 
+- die();
+
+-error handlin
+PDOException $e
+$e -> getMessage 
+
+
+getting data from database
+
+$sql = "SELECT * FROM users WHERE username = :username";
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['username' => $username]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$var -> rowCount();
+
+inserting image 
+  $image_name = $_FILES['image']['name']; 
+  $target_dir = 'uploads/';
+  $target_file = $target_dir . $image_name; 
+	move_uploaded_file($_FILES['image']['tmp_name'], $target_file
+
+
+

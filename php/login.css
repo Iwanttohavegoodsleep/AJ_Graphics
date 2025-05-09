@@ -1,0 +1,26 @@
+html {
+}
+
+body {
+	background-color: white;
+}
+
+.signup_area {
+	width: 100%;
+	max-width: 400px;      
+	margin: 50px auto;      
+	padding: 20px;          
+	background-color: #f8f9fa; 
+	border-radius: 8px;     
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.signup_area h3 {
+	text-align: center;
+}
+
+.signup_area form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
