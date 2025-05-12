@@ -31,8 +31,8 @@
   }
 
   .imglogo {
-    width: 100%;
-    height: 100%;
+    width: 21%;
+    height: 21%;
   }
 
   #navbar {
@@ -177,7 +177,7 @@
 <section id="header">
   <div class="logo">
     <a href="home.php">
-      <img src="AJ_Logo.png" alt="Logo" class="imglogo" />
+      <img src="images/logo.png" alt="Logo" class="imglogo" />
     </a>
   </div>
 
