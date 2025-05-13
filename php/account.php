@@ -34,7 +34,7 @@
 
    <form action="logout.inc.php" method="post">
       <input type="submit" value="Logout">
-   </form endif; ?>
+   </form>
 
 
    <h1 style="text-align: center; margin-top: 2rem;">My Orders</h1>
@@ -47,13 +47,19 @@
         <th>Date</th>
         <th>Status</th>
         <th>Total</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <?php 
         include_once "get_db.inc.php";
         $user_id = $_SESSION['user_id'];
-        $sql = 'SELECT * FROM orders WHERE user_id = ?';
+        $sql = 'SELECT o.*, COALESCE(SUM(oi.total_price), 0) as total 
+                FROM orders o 
+                LEFT JOIN order_items oi ON o.id = oi.order_id 
+                WHERE o.user_id = ? 
+                GROUP BY o.id 
+                ORDER BY o.order_date DESC';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$user_id]);
         $user_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -65,13 +71,70 @@
           <td>#<?= htmlspecialchars($num++) ?></td>
           <td><?= htmlspecialchars($order['order_date']) ?></td>
           <td><?= ucfirst(htmlspecialchars($order['status'])) ?></td>
-          <td>₱<?= number_format($order['total_amount'], 2) ?></td>
+          <td>₱<?= number_format($order['total'], 2) ?></td>
+          <td>
+            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#items-<?= $order['id'] ?>" aria-expanded="false">
+              View Items
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" class="p-0">
+            <div class="collapse" id="items-<?= $order['id'] ?>">
+              <div class="order-items">
+                <?php
+                $items_sql = 'SELECT oi.*, i.name as item_name, i.image 
+                            FROM order_items oi 
+                            LEFT JOIN item i ON oi.item_id = i.id 
+                            WHERE oi.order_id = ?';
+                $items_stmt = $pdo->prepare($items_sql);
+                $items_stmt->execute([$order['id']]);
+                $items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
+                <?php foreach ($items as $item): ?>
+                  <div class="order-item">
+                    <img src="/uploads/<?= htmlspecialchars($item['image'] ?? 'default.jpg') ?>" 
+                         alt="<?= htmlspecialchars($item['item_name']) ?>">
+                    <div>
+                      <h6 class="mb-0"><?= htmlspecialchars($item['item_name']) ?></h6>
+                      <small>Quantity: <?= $item['quantity'] ?> x ₱<?= number_format($item['price'], 2) ?></small>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          </td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
 </div>
 
+<style>
+  .order-items {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  .order-item:last-child {
+    border-bottom: none;
+  }
+  .order-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 1rem;
+  }
+</style>
 
     <?php else: ?>
       <?= "you are not logged in!" ?>

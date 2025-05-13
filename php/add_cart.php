@@ -15,9 +15,16 @@
     
       $item_name = $row['name'];
       $price = $row['price'];
+      $image = $row['image'];
 
       $_SESSION['cart_items']['count'] += 1; 
-      $_SESSION['cart_items']['items'][] = ['item_id' => $item_id, 'qty' => $qty, 'item_name' => $item_name, 'price' => $price];
+      $_SESSION['cart_items']['items'][] = [
+        'item_id' => $item_id, 
+        'qty' => $qty, 
+        'item_name' => $item_name, 
+        'price' => $price,
+        'image' => $image
+      ];
       $_SESSION['success'] = 'Item added successfuly';
 
       header('Location: cart.php');

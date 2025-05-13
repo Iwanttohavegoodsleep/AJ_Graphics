@@ -128,15 +128,15 @@
   <h1 class="page-title">Browse Categories</h1>
 
   <div class="category-grid">
-    <?php foreach ($categories as $cat): ?>
+  <?php foreach ($categories as $cat): ?>
       <div class="category-card">
         <a href="category.php?type=<?= urlencode($cat) ?>">
           <i class="fas fa-folder category-icon"></i>
           <h2><?= ucfirst(htmlspecialchars($cat)) ?></h2>
-        </a>
-      </div>
-    <?php endforeach; ?>
-  </div>
+      </a>
+    </div>
+  <?php endforeach; ?>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
   <?php include_once "footer.php"?>

@@ -89,23 +89,23 @@
 </head>
 <body>
   <?php include_once "navbar.php"?>
-
+ 
   <div class="cart-container">
     <h1 class="text-center mb-4">Shopping Cart</h1>
 
-    <?php if (isset($_SESSION['success'])): ?>
+  <?php if (isset($_SESSION['success'])): ?>
       <div class="alert alert-success">
         <?=$_SESSION['success']?>
-        <?php unset($_SESSION['success']); ?>
+    <?php unset($_SESSION['success']); ?>
       </div>
-    <?php endif; ?>
+  <?php endif; ?>
 
-    <?php $total = 0?>
+  <?php $total = 0?>
     <?php if(isset($_SESSION['cart_items']) && $_SESSION['cart_items']['count'] > 0): ?>
-      <?php foreach($_SESSION['cart_items']['items'] as $item): ?>
-        <?php $total += $item['price'] * $item['qty']?>
+    <?php foreach($_SESSION['cart_items']['items'] as $item): ?>
+      <?php $total += $item['price'] * $item['qty']?>
         <div class="cart-item">
-          <img src="/uploads/<?= htmlspecialchars($item['image'] ?? 'default.jpg') ?>" alt="<?= htmlspecialchars($item['item_name']) ?>">
+          <img src="/uploads/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['item_name']) ?>">
           <div class="item-details">
             <h3><?= htmlspecialchars($item['item_name']) ?></h3>
             <p>Quantity: <?= $item['qty'] ?></p>
@@ -118,7 +118,7 @@
         <h3>Total: <span class="total-amount">₱<?= number_format($total, 2) ?></span></h3>
         <form action="order.php" method="POST" class="mt-3">
           <button type="submit" class="btn-order">Place Order</button>
-        </form>
+      </form>
       </div>
 
     <?php else: ?>

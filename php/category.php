@@ -178,47 +178,47 @@
   <h1 class="page-title"><?= ucfirst($category) ?></h1>
 
   <div class="items-grid">
-    <?php foreach ($items as $item): ?>
+  <?php foreach ($items as $item): ?>
       <div class="item-card" data-bs-toggle="modal" data-bs-target="#itemModal<?= $item['id'] ?>">
         <img src="/uploads/<?= htmlspecialchars($item['image']) ?>" class="item-image" alt="<?= htmlspecialchars($item['name']) ?>">
         <div class="item-content">
           <h2 class="item-title"><?= htmlspecialchars($item['name']) ?></h2>
           <p class="item-price">₱<?= number_format($item['price'], 2) ?></p>
         </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
+    </div>
+  <?php endforeach; ?>
+</div>
 
-  <?php foreach ($items as $item): ?>
-    <div class="modal fade" id="itemModal<?= $item['id'] ?>" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"><?= htmlspecialchars($item['name']) ?></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
+<?php foreach ($items as $item): ?>
+  <div class="modal fade" id="itemModal<?= $item['id'] ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?= htmlspecialchars($item['name']) ?></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
-          <div class="modal-body text-center">
-            <img src="/uploads/<?= htmlspecialchars($item['image']) ?>" class="img-fluid mb-3">
+        <div class="modal-body text-center">
+          <img src="/uploads/<?= htmlspecialchars($item['image']) ?>" class="img-fluid mb-3">
             <p class="item-price">₱<?= number_format($item['price'], 2) ?></p>
-            <p><?= htmlspecialchars($item['description']) ?></p>
+          <p><?= htmlspecialchars($item['description']) ?></p>
 
-            <form action="add_cart.php" method="POST">
-              <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
-              <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
+          <form action="add_cart.php" method="POST">
+            <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+            <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
               
               <div class="form-group">
-                <label for="quantity">Quantity</label>
+            <label for="quantity">Quantity</label>
                 <input type="number" name="quantity" value="1" min="1" class="form-control quantity-input">
               </div>
 
               <button type="submit" class="btn btn-primary mt-3">Add to Cart</button>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-  <?php endforeach; ?>
+  </div>
+<?php endforeach; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
   <?php include_once "footer.php"?>
