@@ -109,6 +109,9 @@
           <div class="item-details">
             <h3><?= htmlspecialchars($item['item_name']) ?></h3>
             <p>Quantity: <?= $item['qty'] ?></p>
+            <?php if(isset($item['size']) && $item['size']): ?>
+              <p>Size: <?= htmlspecialchars($item['size']) ?></p>
+            <?php endif; ?>
             <p class="item-price">₱<?= number_format($item['qty'] * $item['price'], 2) ?></p>
           </div>
         </div>

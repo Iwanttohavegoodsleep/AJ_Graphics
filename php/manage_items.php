@@ -121,6 +121,7 @@
           <th>Name</th>
           <th>Category</th>
           <th>Price</th>
+          <th>Size Info</th>
           <th>Description</th>
           <th>Actions</th>
         </tr>
@@ -168,6 +169,17 @@
           <td><?= htmlspecialchars($item['name']) ?></td>
           <td><?= ucfirst(htmlspecialchars($item['category'])) ?></td>
           <td>₱<?= number_format($item['price'], 2) ?></td>
+          <td>
+            <?php if($item['has_size']): ?>
+              <span class="badge bg-info">Size Required</span><br>
+              Unit: <?= htmlspecialchars($item['size_unit']) ?><br>
+              <?php if($item['default_size']): ?>
+                Default: <?= htmlspecialchars($item['default_size']) ?>
+              <?php endif; ?>
+            <?php else: ?>
+              <span class="badge bg-secondary">No Size</span>
+            <?php endif; ?>
+          </td>
           <td><?= htmlspecialchars($item['description']) ?></td>
           <td>
             <button type="button" class="btn btn-primary btn-action" 
@@ -202,19 +214,33 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Price</label>
-            <input type="number" class="form-control" name="price" step="0.01" required>
+            <input type="number" class="form-control" name="price" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Stock</label>
             <input type="number" class="form-control" name="stock" required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" name="description" rows="3" required></textarea>
+            <label class="form-label">Image</label>
+            <input type="file" class="form-control" name="image" required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Image</label>
-            <input type="file" class="form-control" name="image" accept="image/*" required>
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" required></textarea>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="has_size" id="hasSize">
+            <label class="form-check-label" for="hasSize">This item requires size specification</label>
+          </div>
+          <div id="sizeFields" style="display: none;">
+            <div class="mb-3">
+              <label class="form-label">Size Unit (e.g., sq ft, inches)</label>
+              <input type="text" class="form-control" name="size_unit" placeholder="e.g., sq ft">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Default Size (optional)</label>
+              <input type="text" class="form-control" name="default_size" placeholder="e.g., 2x3">
+            </div>
           </div>
           <button type="submit" class="btn btn-primary">Add Item</button>
         </form>
@@ -268,6 +294,11 @@ function deleteItem(itemId) {
     });
   }
 }
+
+document.getElementById('hasSize').addEventListener('change', function() {
+  const sizeFields = document.getElementById('sizeFields');
+  sizeFields.style.display = this.checked ? 'block' : 'none';
+});
 </script>
 </body>
 </html>

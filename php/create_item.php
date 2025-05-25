@@ -49,6 +49,21 @@
       <label class="form-label">Category </label>           
       <input class="form-control" type="text" name="category" required>
 
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="has_size" id="hasSize">
+        <label class="form-check-label" for="hasSize">
+          This item requires size specification
+        </label>
+      </div>
+
+      <div id="sizeFields" style="display: none;">
+        <label class="form-label">Size Unit (e.g., sq ft, inches, etc.) </label>           
+        <input class="form-control" type="text" name="size_unit" placeholder="e.g., sq ft">
+
+        <label class="form-label">Default Size (optional) </label>           
+        <input class="form-control" type="text" name="default_size" placeholder="e.g., 2x3">
+      </div>
+
       <label class="form-label">Image </label>           
       <input class="form-control" type="file" name="image" required>
 
@@ -63,5 +78,11 @@
 
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+<script>
+document.getElementById('hasSize').addEventListener('change', function() {
+  const sizeFields = document.getElementById('sizeFields');
+  sizeFields.style.display = this.checked ? 'block' : 'none';
+});
+</script>
 </body>
 </html>

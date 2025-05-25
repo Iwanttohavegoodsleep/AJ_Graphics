@@ -208,9 +208,19 @@
             <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['HTTP_REFERER'])?>">
               
               <div class="form-group">
-            <label for="quantity">Quantity</label>
+                <label for="quantity">Quantity</label>
                 <input type="number" name="quantity" value="1" min="1" class="form-control quantity-input">
               </div>
+
+              <?php if($item['has_size']): ?>
+              <div class="form-group mt-3">
+                <label for="size">Size (<?= htmlspecialchars($item['size_unit']) ?>)</label>
+                <input type="text" name="size" class="form-control" placeholder="Enter size" required>
+                <?php if($item['default_size']): ?>
+                  <small class="text-muted">Default size: <?= htmlspecialchars($item['default_size']) ?></small>
+                <?php endif; ?>
+              </div>
+              <?php endif; ?>
 
               <button type="submit" class="btn btn-primary mt-3">Add to Cart</button>
           </form>

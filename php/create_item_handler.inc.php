@@ -7,6 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stock = $_POST['stock'];  
   $category = $_POST['category'];  
   $description = $_POST['description'];  
+  $has_size = isset($_POST['has_size']) ? 1 : 0;
+  $size_unit = $_POST['size_unit'] ?? null;
+  $default_size = $_POST['default_size'] ?? null;
   
   // file handling 
   $image_name = $_FILES['image']['name']; 
@@ -15,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-    $query = "INSERT INTO item (name, description, price, stock, image, category) VALUES (?,?,?,?,?,?)";
+    $query = "INSERT INTO item (name, description, price, stock, image, category, has_size, size_unit, default_size) VALUES (?,?,?,?,?,?,?,?,?)";
     $stmt = $pdo -> prepare($query);  
-    $stmt -> execute([$item_name, $description, $price, $stock, $image_name, $category]);
+    $stmt -> execute([$item_name, $description, $price, $stock, $image_name, $category, $has_size, $size_unit, $default_size]);
     $_SESSION['success'] = 'item created'; 
     header('Location: manage_items.php');
     die();
@@ -28,9 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: manage_items.php");
     die();
   }
-   
-
-
 }
 else {
   header("Location: create_item.php");

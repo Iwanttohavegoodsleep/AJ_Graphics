@@ -16,6 +16,15 @@
       $item_name = $row['name'];
       $price = $row['price'];
       $image = $row['image'];
+      $has_size = $row['has_size'];
+      $size_unit = $row['size_unit'];
+      $default_size = $row['default_size'];
+
+      // If item has size, get it from POST
+      $size = null;
+      if ($has_size) {
+        $size = $_POST['size'] ?? $default_size;
+      }
 
       $_SESSION['cart_items']['count'] += 1; 
       $_SESSION['cart_items']['items'][] = [
@@ -23,7 +32,8 @@
         'qty' => $qty, 
         'item_name' => $item_name, 
         'price' => $price,
-        'image' => $image
+        'image' => $image,
+        'size' => $size
       ];
       $_SESSION['success'] = 'Item added successfuly';
 
